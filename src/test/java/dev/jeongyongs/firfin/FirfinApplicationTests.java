@@ -6,8 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class FirfinApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+    }
 }
