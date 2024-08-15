@@ -15,7 +15,7 @@ CREATE TABLE payments
     payment_id     BIGINT     NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id        BIGINT     NOT NULL REFERENCES users (user_id),
     payment_status TINYINT    NOT NULL COMMENT '0=APPROVED=승인, 1=CANCELED=취소',
-    transaction_id BINARY(16) NOT NULL COMMENT 'UUID',
+    transaction_id BINARY(16) NOT NULL UNIQUE COMMENT 'UUID',
     merchant_id    BIGINT     NOT NULL,
     amount         BIGINT     NOT NULL,
     create_at      DATETIME   NOT NULL,
