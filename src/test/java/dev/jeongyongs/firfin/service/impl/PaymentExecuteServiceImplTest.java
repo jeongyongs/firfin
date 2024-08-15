@@ -37,10 +37,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 
 @ExtendWith(MockitoExtension.class)
-class PaymentServiceImplTest {
+class PaymentExecuteServiceImplTest {
 
     @InjectMocks
-    PaymentServiceImpl service;
+    PaymentExecuteServiceImpl service;
     @Mock
     UserRepository userRepository;
     @Mock

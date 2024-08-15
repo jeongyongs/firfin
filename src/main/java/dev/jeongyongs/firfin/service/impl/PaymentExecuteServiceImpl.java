@@ -13,7 +13,7 @@ import dev.jeongyongs.firfin.exception.InsufficientMoneyException;
 import dev.jeongyongs.firfin.exception.UserNotFoundException;
 import dev.jeongyongs.firfin.repository.PaymentRepository;
 import dev.jeongyongs.firfin.repository.UserRepository;
-import dev.jeongyongs.firfin.service.PaymentService;
+import dev.jeongyongs.firfin.service.PaymentExecuteService;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentExecuteServiceImpl implements PaymentExecuteService {
 
     private static final String DUPLICATED = "이미 결제된 건입니다";
 

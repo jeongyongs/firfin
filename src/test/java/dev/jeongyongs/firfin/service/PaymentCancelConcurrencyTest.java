@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.jeongyongs.firfin.TestUtils;
 import dev.jeongyongs.firfin.domain.User;
-import dev.jeongyongs.firfin.dto.PaymentExecuteRequest;
+import dev.jeongyongs.firfin.dto.PaymentCancelRequest;
+import dev.jeongyongs.firfin.repository.PaymentRepository;
 import dev.jeongyongs.firfin.repository.UserRepository;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -16,28 +17,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PaymentConcurrencyTest {
+class PaymentCancelConcurrencyTest {
 
     @Autowired
-    PaymentService paymentService;
+    PaymentCancelService paymentCancelService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PaymentRepository paymentRepository;
 
     @Test
-    @DisplayName("동시 요청")
+    @DisplayName("결제 취소 동시 요청")
     void concurrency() throws Exception {
         // given
         int totalThread = 20;
         ExecutorService executorService = Executors.newFixedThreadPool(totalThread);
         CountDownLatch countDownLatch = new CountDownLatch(totalThread);
-        PaymentExecuteRequest request = TestUtils.createDummyPaymentExecuteRequest();
+        PaymentCancelRequest request = TestUtils.createDummyPaymentCancelRequest();
         AtomicInteger count = new AtomicInteger();
+        long initMoney = userRepository.findById(1L)
+                                       .orElseThrow()
+                                       .getMoney();
 
         // when
         for (int i = 0; i < totalThread; i++) {
             executorService.submit(() -> {
                 try {
-                    paymentService.execute(request);
+                    paymentCancelService.cancel(request);
                 } catch (Exception ignore) {
                     count.incrementAndGet();
                 } finally {
@@ -53,6 +59,6 @@ class PaymentConcurrencyTest {
                                   .orElseThrow();
 
         assertThat(count.get()).isEqualTo(totalThread - 1);
-        assertThat(user.getMoney()).isEqualTo(9_000L);
+        assertThat(user.getMoney()).isEqualTo(initMoney + 10_000L);
     }
 }
