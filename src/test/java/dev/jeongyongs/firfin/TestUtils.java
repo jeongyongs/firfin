@@ -4,12 +4,14 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import dev.jeongyongs.firfin.domain.Payment;
 import dev.jeongyongs.firfin.domain.User;
+import dev.jeongyongs.firfin.dto.PaymentCancelRequest;
 import dev.jeongyongs.firfin.dto.PaymentExecuteRequest;
 import dev.jeongyongs.firfin.dto.PaymentExecuteResponse;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * 더미 객체 생성 등 테스트를 위한 메서드를 제공하는 유틸 클래스입니다.
@@ -18,7 +20,6 @@ public class TestUtils {
 
     public static PaymentExecuteRequest createDummyPaymentExecuteRequest(long amount) throws Exception {
         PaymentExecuteRequest request = newInstance(PaymentExecuteRequest.class);
-
         setField(request, "userId", 1L);
         setField(request, "transactionId", UUID.randomUUID());
         setField(request, "merchantId", 2L);
@@ -70,5 +71,13 @@ public class TestUtils {
         field.set(user, 1L);
 
         return user;
+    }
+
+    public static PaymentCancelRequest createDummyPaymentCancelRequest() throws Exception {
+        PaymentCancelRequest request = newInstance(PaymentCancelRequest.class);
+        setField(request, "userId", 1L);
+        setField(request, "paymentId", 1L);
+
+        return request;
     }
 }
