@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.jeongyongs.firfin.domain.ErrorCode;
+import dev.jeongyongs.firfin.dto.PaymentCancelRequest;
 import dev.jeongyongs.firfin.dto.PaymentExecuteRequest;
 import dev.jeongyongs.firfin.dto.PaymentExecuteResponse;
 import dev.jeongyongs.firfin.exception.DuplicateRequestException;
@@ -20,7 +21,8 @@ import dev.jeongyongs.firfin.exception.ExceedTransactionLimitException;
 import dev.jeongyongs.firfin.exception.InsufficientMoneyException;
 import dev.jeongyongs.firfin.exception.TimeoutException;
 import dev.jeongyongs.firfin.exception.UserNotFoundException;
-import dev.jeongyongs.firfin.service.PaymentService;
+import dev.jeongyongs.firfin.service.PaymentCancelService;
+import dev.jeongyongs.firfin.service.PaymentExecuteService;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +44,9 @@ class PaymentControllerTest {
     @Autowired
     ObjectMapper objectMapper;
     @MockBean
-    PaymentService paymentService;
+    PaymentExecuteService paymentExecuteService;
+    @MockBean
+    PaymentCancelService paymentCancelService;
 
     public static Stream<Arguments> errors() {
         return Stream.of(
@@ -95,7 +99,7 @@ class PaymentControllerTest {
     @DisplayName("결제 성공 응답")
     void paymentExecuteSuccess() throws Exception {
         PaymentExecuteResponse response = createDummyPaymentExecuteResponse();
-        given(paymentService.execute(any())).willReturn(response);
+        given(paymentExecuteService.execute(any())).willReturn(response);
 
         mockMvc.perform(post("/api/payment")
                    .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +115,7 @@ class PaymentControllerTest {
     @MethodSource("errors")
     @DisplayName("결제 에러 응답")
     void paymentExecuteDuplicated(Throwable e, String message, ResultMatcher status, ErrorCode code) throws Exception {
-        given(paymentService.execute(any())).willThrow(e);
+        given(paymentExecuteService.execute(any())).willThrow(e);
 
         mockMvc.perform(post("/api/payment")
                    .contentType(MediaType.APPLICATION_JSON)

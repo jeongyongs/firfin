@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public enum PaymentStatus implements Code {
+public enum PaybackStatus implements Code {
 
-    APPROVE(0),
+    PAID(0),
     CANCELED(1);
 
     private final int code;

@@ -2,8 +2,10 @@ package dev.jeongyongs.firfin.controller;
 
 import dev.jeongyongs.firfin.domain.ErrorCode;
 import dev.jeongyongs.firfin.dto.ErrorResponse;
+import dev.jeongyongs.firfin.exception.AbstractException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GeneralControllerAdvice {
+
+    @ExceptionHandler(AbstractException.class)
+    public ResponseEntity<ErrorResponse> handleAbstractException(AbstractException exception) {
+        ErrorResponse body = new ErrorResponse(exception.getErrorCode(), exception.getMessage(), LocalDateTime.now());
+
+        return ResponseEntity.status(exception.getHttpStatus())
+                             .body(body);
+    }
 
     @ExceptionHandler(TransactionTimedOutException.class)
     public ResponseEntity<ErrorResponse> handleTransactionTimedOutException() {
@@ -32,6 +42,17 @@ public class GeneralControllerAdvice {
         ErrorResponse body = new ErrorResponse(ErrorCode.INVALID_REQUEST, message, LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                             .body(body);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> handleException(ConstraintViolationException ex) {
+        if (!"23505".equals(ex.getSQLState())) {
+            throw ex;
+        }
+        ErrorResponse body = new ErrorResponse(ErrorCode.DUPLICATED, "중복 요청", LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT)
                              .body(body);
     }
 }
