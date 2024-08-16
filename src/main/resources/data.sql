@@ -25,7 +25,7 @@ CREATE TABLE payments
 CREATE TABLE paybacks
 (
     payback_id     BIGINT   NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    payment_id     BIGINT   NOT NULL REFERENCES payments (payment_id),
+    payment_id     BIGINT   NOT NULL UNIQUE REFERENCES payments (payment_id),
     payback_status TINYINT  NOT NULL COMMENT '0=PAID=지급, 1=CANCELED=취소',
     amount         BIGINT   NOT NULL,
     create_at      DATETIME NOT NULL,
