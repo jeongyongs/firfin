@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "paybacks")
@@ -28,6 +29,7 @@ public class Payback {
     @ManyToOne
     private Payment payment;
 
+    @Setter
     @Column(name = "payback_status")
     private PaybackStatus paybackStatus;
 
@@ -36,6 +38,7 @@ public class Payback {
     @Column(name = "create_at")
     private LocalDateTime createdAt;
 
+    @Setter
     @Column(name = "update_at")
     private LocalDateTime updateAt;
 
