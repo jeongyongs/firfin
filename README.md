@@ -59,7 +59,8 @@
 
 H2 내장 데이터베이스를 사용합니다.
 
-`schema.sql`와 `data.sql`을 사용하여 서버 실행 시 자동으로 스키마를 생성하고 더미 데이터를 삽입합니다. [스키마 보기](src/main/resources/schema.sql) | [데이터 보기](src/main/resources/data.sql)
+`schema.sql`와 `data.sql`을 사용하여 서버 실행 시 자동으로 스키마를 생성하고 더미 데이터를 삽입합니다.<br>
+[스키마 보기](src/main/resources/schema.sql) | [데이터 보기](src/main/resources/data.sql)
 
 H2 데이터베이스 기본 콘솔을 제공합니다. `/h2-console`
 
