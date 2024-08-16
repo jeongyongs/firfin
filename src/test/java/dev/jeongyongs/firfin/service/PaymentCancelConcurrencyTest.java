@@ -3,6 +3,8 @@ package dev.jeongyongs.firfin.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dev.jeongyongs.firfin.TestUtils;
+import dev.jeongyongs.firfin.domain.Payment;
+import dev.jeongyongs.firfin.domain.PaymentStatus;
 import dev.jeongyongs.firfin.domain.User;
 import dev.jeongyongs.firfin.dto.PaymentCancelRequest;
 import dev.jeongyongs.firfin.repository.PaymentRepository;
@@ -57,8 +59,12 @@ class PaymentCancelConcurrencyTest {
         // then
         User user = userRepository.findById(1L)
                                   .orElseThrow();
+        Payment payment = paymentRepository.findById(1L)
+                                           .orElseThrow();
 
         assertThat(count.get()).isEqualTo(totalThread - 1);
         assertThat(user.getMoney()).isEqualTo(initMoney + 10_000L);
+        assertThat(payment.getPaymentStatus()).isEqualTo(PaymentStatus.CANCELED);
+        assertThat(payment.getUpdateAt()).isNotNull();
     }
 }
