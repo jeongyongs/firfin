@@ -1,6 +1,5 @@
 package dev.jeongyongs.firfin.convertor;
 
-import dev.jeongyongs.firfin.domain.PaybackStatus;
 import dev.jeongyongs.firfin.domain.PaymentStatus;
 import javax.persistence.Converter;
 
