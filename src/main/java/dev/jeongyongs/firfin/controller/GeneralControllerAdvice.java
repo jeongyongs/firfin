@@ -2,6 +2,7 @@ package dev.jeongyongs.firfin.controller;
 
 import dev.jeongyongs.firfin.domain.ErrorCode;
 import dev.jeongyongs.firfin.dto.ErrorResponse;
+import dev.jeongyongs.firfin.exception.AbstractException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import org.hibernate.exception.ConstraintViolationException;
@@ -16,6 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GeneralControllerAdvice {
+
+    @ExceptionHandler(AbstractException.class)
+    public ResponseEntity<ErrorResponse> handleAbstractException(AbstractException exception) {
+        ErrorResponse body = new ErrorResponse(exception.getErrorCode(), exception.getMessage(), LocalDateTime.now());
+
+        return ResponseEntity.status(exception.getHttpStatus())
+                             .body(body);
+    }
 
     @ExceptionHandler(TransactionTimedOutException.class)
     public ResponseEntity<ErrorResponse> handleTransactionTimedOutException() {
