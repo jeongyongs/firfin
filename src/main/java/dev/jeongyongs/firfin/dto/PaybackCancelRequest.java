@@ -1,5 +1,6 @@
 package dev.jeongyongs.firfin.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -10,11 +11,13 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PaybackCancelRequest {
 
-    @NotNull(message = "userId: null일 수 없습니다")
-    @Min(value = 0L, message = "userId: 음수일 수 없습니다")
+    @NotNull(message = "user_id: null일 수 없습니다")
+    @Min(value = 0L, message = "user_id: 음수일 수 없습니다")
+    @JsonProperty("user_id")
     private Long userId;
 
-    @NotNull(message = "paybackId: null일 수 없습니다")
-    @Min(value = 0L, message = "paybackId: 음수일 수 없습니다")
+    @NotNull(message = "payback_id: null일 수 없습니다")
+    @Min(value = 0L, message = "payback_id: 음수일 수 없습니다")
+    @JsonProperty("payback_id")
     private Long paybackId;
 }

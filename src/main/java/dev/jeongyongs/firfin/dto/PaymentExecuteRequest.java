@@ -1,5 +1,6 @@
 package dev.jeongyongs.firfin.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,15 +12,18 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PaymentExecuteRequest {
 
-    @NotNull(message = "userId: null일 수 없습니다")
-    @Min(value = 0L, message = "userId: 음수일 수 없습니다")
+    @NotNull(message = "user_id: null일 수 없습니다")
+    @Min(value = 0L, message = "user_id: 음수일 수 없습니다")
+    @JsonProperty("user_id")
     private Long userId;
 
-    @NotNull(message = "transactionId: null일 수 없습니다")
+    @NotNull(message = "transaction_id: null일 수 없습니다")
+    @JsonProperty("transaction_id")
     private UUID transactionId;
 
-    @NotNull(message = "merchantId: null일 수 없습니다")
-    @Min(value = 0L, message = "merchantId: 음수일 수 없습니다")
+    @NotNull(message = "merchant_id: null일 수 없습니다")
+    @Min(value = 0L, message = "merchant_id: 음수일 수 없습니다")
+    @JsonProperty("merchant_id")
     private Long merchantId;
 
     @NotNull(message = "amount: null일 수 없습니다")
