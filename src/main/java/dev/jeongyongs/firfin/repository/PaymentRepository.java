@@ -5,6 +5,7 @@ import dev.jeongyongs.firfin.domain.PaymentStatus;
 import dev.jeongyongs.firfin.domain.User;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,4 +15,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findAllByUserAndPaymentStatusAndCreateAtGreaterThanEqual(
         User user, PaymentStatus status, LocalDateTime createAt);
+
+    Optional<Payment> findByIdAndPaymentStatus(long id, PaymentStatus paymentStatus);
 }
