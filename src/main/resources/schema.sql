@@ -19,7 +19,9 @@ CREATE TABLE payments
     merchant_id    BIGINT     NOT NULL,
     amount         BIGINT     NOT NULL,
     create_at      DATETIME   NOT NULL,
-    update_at      DATETIME   NULL
+    update_at      DATETIME   NULL,
+
+    INDEX idx_payments_user_status_date (user_id, payment_status, create_at)
 );
 
 CREATE TABLE paybacks
