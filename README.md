@@ -5,11 +5,12 @@
 1. [요구사항](#1-요구사항)
 2. [ERD](#2-erd)
 3. [사용법](#3-사용법)
-4. [스키마 보기](src/main/resources/schema.sql)
-5. [API 명세 보기](doc/API.md)
-6. [고민거리 보기](doc/%EA%B3%A0%EB%AF%BC%EA%B1%B0%EB%A6%AC.md)
-7. [문제점 보기](doc/%EB%AC%B8%EC%A0%9C%EC%A0%90.md)
-8. [위험요소 보기](doc/%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C.md)
+4. [개선 사항](#4-개선-사항)
+5. [스키마 보기](src/main/resources/schema.sql)
+6. [API 명세 보기](doc/API.md)
+7. [고민거리 보기](doc/%EA%B3%A0%EB%AF%BC%EA%B1%B0%EB%A6%AC.md)
+8. [문제점 보기](doc/%EB%AC%B8%EC%A0%9C%EC%A0%90.md)
+9. [위험요소 보기](doc/%EC%9C%84%ED%97%98%EC%9A%94%EC%86%8C.md)
 
 ## 1. 요구사항
 
@@ -83,3 +84,17 @@ INFO 레벨 로그는 콘솔에 출력됩니다.
 로그는 매일 자정에 롤 아웃되며 `./log/exception/history`에 날짜별로 기록됩니다.
 
 최대 로그 파일 크기 1GB, 30일 동안 유지됩니다.
+
+## 4. 개선 사항
+
+### 2024.08.28(수)
+
+#### 결제 API 성능 개선
+
+1. DB payments 인덱싱
+   - (user_id, payment_status, create_at) 인덱스 적용
+
+2. 일일 / 월간 사용 금액 연산 로직 변경
+   - Stream API → DB `SUM()` 집계 함수 사용
+
+> 평균 455 ms → **30 ms** 로 개선 [자세히](https://velog.io/@jeongyong/API-%EC%84%B1%EB%8A%A5-%ED%96%A5%EC%83%81%EC%9D%84-%EC%9C%84%ED%95%9C-%ED%85%8C%EC%8A%A4%ED%8A%B8)
