@@ -106,9 +106,9 @@ class PaymentControllerTest {
                    .content(getRequestBody()))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("$.paymentId").value(response.getPaymentId()))
+               .andExpect(jsonPath("$.payment_id").value(response.getPaymentId()))
                .andExpect(jsonPath("$.amount").value(response.getAmount()))
-               .andExpect(jsonPath("$.createAt").exists());
+               .andExpect(jsonPath("$.create_at").exists());
     }
 
     @ParameterizedTest
