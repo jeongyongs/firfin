@@ -20,5 +20,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     Optional<Payment> findByIdAndPaymentStatus(long id, PaymentStatus paymentStatus);
 
     @Query("SELECT SUM(p.amount) FROM Payment p WHERE p.user = :user AND p.paymentStatus = 0 AND p.createAt >= :baseDate")
-    long getUsage(User user, LocalDateTime baseDate);
+    Optional<Long> getUsage(User user, LocalDateTime baseDate);
 }

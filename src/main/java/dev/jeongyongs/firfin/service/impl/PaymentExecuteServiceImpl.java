@@ -61,14 +61,16 @@ public class PaymentExecuteServiceImpl implements PaymentExecuteService {
     }
 
     private void validateDailyLimit(User user, Payment payment) {
-        long dailyUsage = paymentRepository.getUsage(user, LocalDate.now().atStartOfDay());
+        long dailyUsage = paymentRepository.getUsage(user, LocalDate.now().atStartOfDay())
+                                           .orElse(0L);
         if (dailyUsage + payment.getAmount() > user.getDailyPaymentLimit()) {
             throw new ExceedDailyLimitException();
         }
     }
 
     private void validateMonthlyLimit(User user, Payment payment) {
-        long monthlyUsage = paymentRepository.getUsage(user, LocalDate.now().withDayOfMonth(1).atStartOfDay());
+        long monthlyUsage = paymentRepository.getUsage(user, LocalDate.now().withDayOfMonth(1).atStartOfDay())
+                                             .orElse(0L);
         if (monthlyUsage + payment.getAmount() > user.getMonthlyPaymentLimit()) {
             throw new ExceedMonthlyLimitException();
         }
